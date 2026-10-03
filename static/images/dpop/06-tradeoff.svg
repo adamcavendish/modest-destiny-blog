@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" role="img" aria-labelledby="title desc">
+<title id="title">The DPoP tradeoff triangle</title><desc id="desc">DPoP balances deployability, sender constraint, and operational complexity rather than maximizing one dimension.</desc>
+<rect width="1200" height="480" fill="#fafaf8"/><g font-family="Arial,sans-serif" fill="#242424"><text x="60" y="62" font-size="26" font-weight="700">the shape of the tradeoff</text><text x="60" y="94" font-size="17" fill="#66635f">DPoP chooses a workable middle, not a perfect corner</text>
+<path d="M600 135L300 365L900 365Z" fill="#f1eee8" stroke="#242424" stroke-width="3"/><circle cx="600" cy="135" r="18" fill="#6c8bb3"/><circle cx="300" cy="365" r="18" fill="#9f3d42"/><circle cx="900" cy="365" r="18" fill="#b58b58"/>
+<text x="600" y="112" text-anchor="middle" font-size="19" font-weight="700">sender constraint</text><text x="300" y="409" text-anchor="middle" font-size="19" font-weight="700">deployability</text><text x="900" y="409" text-anchor="middle" font-size="19" font-weight="700">operational simplicity</text>
+<circle cx="590" cy="292" r="25" fill="#242629"/><text x="590" y="298" text-anchor="middle" font-size="18" fill="#f2f0ec">DPoP</text><path d="M590 267L600 153M565 304L321 360M615 304L879 360" stroke="#9f3d42" stroke-width="3" stroke-dasharray="7 7"/>
+<text x="60" y="160" font-size="17" fill="#66635f">No sender-constraining scheme removes cost.</text><text x="60" y="190" font-size="17" fill="#66635f">The design question is where to place it.</text>
+</g></svg>

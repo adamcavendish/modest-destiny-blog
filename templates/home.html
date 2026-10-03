@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block body_class %}home-page{% endblock body_class %}
+{% block content %}
+{% set posts = get_section(path="posts/_index.md") %}
+<section class="home-hero">
+  {% set series_taxonomy = get_taxonomy(kind="series") %}
+  <div class="home-masthead"><nav aria-label="Primary"><a href="{{ get_url(path='posts') }}">Posts</a>{% if series_taxonomy.items | length > 0 %}<a href="{{ get_url(path='series') }}">Series</a>{% endif %}<a href="{{ get_url(path='tags') }}">Tags</a><a href="{{ get_url(path='search') }}">Search</a><a href="{{ get_url(path='rss.xml') }}">RSS</a><button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch color theme"><span data-theme-icon>☾</span></button></nav></div>
+  <div class="home-hero__grid">
+    <div class="home-hero__title"><h1><span>Modest</span><span>Destiny</span></h1></div>
+    <div class="home-hero__statement"><p class="home-quote" data-home-quote></p><p class="home-byline">— Adam Basfop Cavendish</p></div>
+  </div>
+  <script>(function(){var quotes=["The age rushes onward beneath us, carrying cities, languages, and generations in its current, while we learn to keep our hearts humble and our hands useful upon the waves.","No individual can arrest the becoming of civilization, yet a life may still acquire meaning by attending to its currents, mastering its craft, and advancing without the illusion of control.","The age into which we are born is not ours to design, and yet within its irresistible movement we remain responsible for the direction of our own becoming.","We do not command the century, we do not quiet the storm, we do not turn the river; we study, we struggle, we lend a shoulder, and we keep moving."];var node=document.querySelector('[data-home-quote]');if(node)node.textContent=quotes[Math.floor(Math.random()*quotes.length)];}());</script>
+</section>
+<section class="latest" aria-label="Posts"><div class="feature-grid">{% for post in posts.pages %}{% if loop.index <= 6 %}<a class="feature-card{% if loop.first %} feature-card--large{% endif %}" href="{{ post.permalink }}">
+  {% if post.taxonomies.series %}
+    {% set card_series_name = post.taxonomies.series | first %}
+    {% set card_series_term = get_taxonomy_term(kind="series", term=card_series_name) %}
+    {% set card_series_pages = card_series_term.pages | sort(attribute="extra.series_order") %}
+    <span class="feature-card__series"><span>{{ card_series_name }}</span>{% for series_page in card_series_pages %}{% if series_page.permalink == post.permalink %}<small>Part {{ series_page.extra.series_order }} of {{ card_series_pages | length }}</small>{% endif %}{% endfor %}</span>
+  {% endif %}
+  <span class="eyebrow">{{ post.date | date(format="%Y-%m-%d") }}{% if post.taxonomies.tags %} · {{ post.taxonomies.tags | first }}{% endif %}</span><h3>{{ post.title }}</h3>{% if post.description %}<p>{{ post.description }}</p>{% endif %}<span class="card-meta">{{ post.reading_time }} min</span></a>{% endif %}{% endfor %}</div><a class="all-posts-link" href="{{ get_url(path='posts') }}">All posts</a></section>
+{% endblock content %}

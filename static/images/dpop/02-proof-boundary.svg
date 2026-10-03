@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 450" role="img" aria-labelledby="title desc">
+<title id="title">A key and proof travel with a request</title><desc id="desc">A private key remains in the client while a public key thumbprint binds an access token and a signed proof travels with a request.</desc>
+<rect width="1200" height="450" fill="#fafaf8"/>
+<g font-family="Arial,sans-serif" fill="#242424">
+<text x="60" y="60" font-size="26" font-weight="700">the private key stays behind the boundary</text>
+<rect x="60" y="112" width="300" height="238" rx="16" fill="#f1eee8" stroke="#9f3d42" stroke-width="4"/><text x="210" y="152" text-anchor="middle" font-size="20" font-weight="700">client boundary</text>
+<rect x="120" y="194" width="180" height="62" rx="10" fill="#242629"/><text x="210" y="232" text-anchor="middle" font-size="17" fill="#f2f0ec">private key K</text>
+<text x="210" y="292" text-anchor="middle" font-size="16" fill="#66635f">signs; never sent</text>
+<path d="M360 232H520" stroke="#9f3d42" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+<rect x="540" y="130" width="300" height="80" rx="12" fill="#f1eee8" stroke="#6c8bb3" stroke-width="4"/><text x="690" y="165" text-anchor="middle" font-size="18">access token</text><text x="690" y="191" text-anchor="middle" font-size="15" fill="#66635f">cnf.jkt = thumbprint(K)</text>
+<rect x="540" y="250" width="300" height="80" rx="12" fill="#242629"/><text x="690" y="285" text-anchor="middle" font-size="18" fill="#e58a8d">DPoP proof</text><text x="690" y="311" text-anchor="middle" font-size="15" fill="#f2f0ec">signed: htm · htu · iat · jti</text>
+<path d="M840 170H1015M840 290H1015" stroke="#242424" stroke-width="4" fill="none" marker-end="url(#arrow)"/>
+<rect x="1030" y="184" width="120" height="92" rx="12" fill="#f1eee8" stroke="#9f3d42" stroke-width="4"/><text x="1090" y="238" text-anchor="middle" font-size="19">request</text>
+<text x="60" y="402" font-size="17" fill="#66635f">the token says what is allowed; the proof says which key is acting</text>
+</g><defs><marker id="arrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0 0L11 5.5L0 11z" fill="#9f3d42"/></marker></defs></svg>

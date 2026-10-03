@@ -1,0 +1,30 @@
+base_url = "https://example.github.io/blog"
+title = "Modest Destiny"
+description = "Notes, systems, and experiments by Adam Basfop Cavendish"
+default_language = "en"
+build_search_index = true
+generate_feeds = true
+feed_filenames = ["atom.xml", "rss.xml"]
+exclude_paginated_pages_in_sitemap = "all"
+output_dir = "public"
+taxonomies = [
+  { name = "tags", feed = true },
+  { name = "series", feed = false }
+]
+
+[markdown]
+render_emoji = true
+external_links_target_blank = true
+insert_anchor_links = "heading"
+github_alerts = true
+definition_list = true
+bottom_footnotes = true
+lazy_async_image = true
+
+[extra]
+author = "Adam Basfop Cavendish"
+comments_enabled = true
+
+[markdown.highlighting]
+style = "inline"
+theme = "github-dark"

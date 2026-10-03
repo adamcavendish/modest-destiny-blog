@@ -1,0 +1,11 @@
+{# Zola 0.23+ discovers Tera components from any template file. #}
+{% component echarts(id: string, title: string, data: string) %}
+<figure class="chart">
+  <div id="{{ id }}" class="chart__canvas" data-chart='{"title":"{{ title }}","data":{{ data | safe }}}' role="img" aria-label="{{ title }}"></div>
+  <figcaption>{{ title }}</figcaption>
+</figure>
+{% endcomponent echarts %}
+
+{% component dpop_figure(src: string, alt: string, caption: string) %}
+<figure class="figure"><img src="{{ get_url(path=src) }}" alt="{{ alt }}" loading="lazy"><figcaption>{{ caption }}</figcaption></figure>
+{% endcomponent dpop_figure %}

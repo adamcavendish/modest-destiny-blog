@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="prose taxonomy-term{% if taxonomy.name == 'series' %} series-term{% endif %}">
+  {% if taxonomy.name == "series" %}
+    {% set series_pages = term.pages | sort(attribute="extra.series_order") %}
+    <p class="eyebrow">Series · {{ series_pages | length }} {% if series_pages | length == 1 %}part{% else %}parts{% endif %}</p>
+    <h1>{{ term.name }}</h1>
+    <div class="series-outline" aria-label="Parts in this series">
+      {% for post in series_pages %}
+      <a class="series-outline__item" href="{{ post.permalink }}">
+        <span class="series-outline__number">{{ post.extra.series_order }}</span>
+        <span class="series-outline__copy"><strong>{{ post.title }}</strong>{% if post.description %}<small>{{ post.description }}</small>{% endif %}</span>
+      </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="eyebrow">Tag</p>
+    <h1>{{ term.name }}</h1>
+    <div class="post-list">{% for page in term.pages %}<a class="post-card" href="{{ page.permalink }}"><span class="eyebrow">{{ page.date | date(format="%Y-%m-%d") }} · {{ page.reading_time }} min read</span><h2>{{ page.title }}</h2>{% if page.description %}<p>{{ page.description }}</p>{% endif %}</a>{% endfor %}</div>
+  {% endif %}
+</section>
+{% endblock content %}

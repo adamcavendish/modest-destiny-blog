@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="prose taxonomy-index{% if taxonomy.name == 'series' %} series-index{% endif %}">
+  {% if taxonomy.name == "series" %}
+    <p class="eyebrow">Ordered reading</p>
+    <h1>Series</h1>
+    <p class="taxonomy-intro">Longer lines of thought, arranged for reading from beginning to end.</p>
+    <div class="series-grid">
+      {% for term in terms %}
+      <a class="series-card" href="{{ term.permalink }}">
+        <span class="series-card__title">{{ term.name }}</span>
+        <span class="series-card__meta">{{ term.pages | length }} {% if term.pages | length == 1 %}post{% else %}posts{% endif %}</span>
+      </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="eyebrow">Browse by subject</p>
+    <h1>{{ taxonomy.name | title }}</h1>
+    <div class="tag-grid">{% for term in terms %}<a class="tag-card" href="{{ term.permalink }}"><span>{{ term.name }}</span><small>{{ term.pages | length }} {% if term.pages | length == 1 %}post{% else %}posts{% endif %}</small></a>{% endfor %}</div>
+  {% endif %}
+</section>
+{% endblock content %}

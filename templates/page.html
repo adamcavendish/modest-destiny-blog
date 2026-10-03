@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}{{ page.title }} · {{ config.title }}{% endblock title %}
+{% block description %}{{ page.description | default(value=config.description) }}{% endblock description %}
+{% block page_scripts %}
+  {% if page.extra.article_scripts %}
+    {% for script in page.extra.article_scripts %}
+      <script type="module" src="{{ get_url(path=script) }}"></script>
+    {% endfor %}
+  {% endif %}
+{% endblock page_scripts %}
+{% block content %}
+<article class="prose">
+  {% if page.taxonomies.series %}
+    {% set series_name = page.taxonomies.series | first %}
+    {% set series_term = get_taxonomy_term(kind="series", term=series_name) %}
+    {% set series_pages = series_term.pages | sort(attribute="extra.series_order") %}
+  {% endif %}
+  <header class="article-header">
+    {% if page.taxonomies.series %}
+      <div class="article-series">
+        <a class="article-series__name" href="{{ series_term.permalink }}">{{ series_name }}</a>
+        {% for series_page in series_pages %}{% if series_page.permalink == page.permalink %}<span class="article-series__part">Part {{ series_page.extra.series_order }} of {{ series_pages | length }}</span>{% endif %}{% endfor %}
+      </div>
+    {% endif %}
+    <h1>{{ page.title }}</h1>
+    <p class="eyebrow">{{ page.date | date(format="%Y-%m-%d") }} · {{ page.reading_time }} min read · {{ page.word_count }} words</p>
+    {% if page.description %}<p class="dek">{{ page.description }}</p>{% endif %}
+  </header>
+  <div class="article-layout">{% if page.toc %}<aside class="toc" aria-label="Table of contents"><div class="toc-heading"><span>Contents</span><span class="toc-count">{{ page.toc | length }} sections</span></div><nav><ul>{% for h1 in page.toc %}<li><a href="{{ h1.permalink }}">{{ h1.title }}</a>{% if h1.children %}<ul>{% for h2 in h1.children %}<li><a href="{{ h2.permalink }}">{{ h2.title }}</a></li>{% endfor %}</ul>{% endif %}</li>{% endfor %}</ul></nav></aside>{% endif %}<div class="article-body">{{ page.content | safe }}{% if page.backlinks %}<aside class="backlinks"><h2>Referenced by</h2><ul>{% for link in page.backlinks %}<li><a href="{{ link.permalink }}">{{ link.title | default(value=link.permalink) }}</a></li>{% endfor %}</ul></aside>{% endif %}{% if config.extra.comments_enabled %}<section class="comments" aria-label="Comments"><h2>Comments</h2><p class="muted">Giscus will appear here once the repository Discussions settings are configured.</p></section>{% endif %}
+  {% if page.taxonomies.series %}
+    <nav class="series-pagination" aria-label="Series navigation">
+      {% for series_page in series_pages %}
+        {% if series_page.permalink == page.permalink %}
+          {% if loop.index0 > 0 %}<a href="{{ series_pages[loop.index0 - 1].permalink }}"><span>Previous</span><strong>{{ series_pages[loop.index0 - 1].title }}</strong></a>{% else %}<span class="series-pagination__empty"></span>{% endif %}
+          {% if loop.index < series_pages | length %}<a class="series-pagination__next" href="{{ series_pages[loop.index0 + 1].permalink }}"><span>Next</span><strong>{{ series_pages[loop.index0 + 1].title }}</strong></a>{% endif %}
+        {% endif %}
+      {% endfor %}
+    </nav>
+  {% endif %}</div></div>
+</article>
+{% endblock content %}
