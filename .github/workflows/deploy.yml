@@ -15,9 +15,9 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - uses: getzola/install@v4
+      - uses: taiki-e/install-action@v2
         with:
-          version: latest
+          tool: zola@0.23.0
       - run: zola build
       - uses: actions/upload-pages-artifact@v3
         with:
