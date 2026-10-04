@@ -1,73 +1,63 @@
 # Modest Destiny
 
-The source for [Modest Destiny](https://adamcavendish.github.io/modest-destiny-blog/), Adam Basfop Cavendish's Markdown-first technical blog.
+<p align="center">
+  <a href="https://adamcavendish.github.io/modest-destiny-blog/">
+    <img src="https://adamcavendish.github.io/modest-destiny-blog/favicon.svg" alt="Modest Destiny" width="96">
+  </a>
+</p>
 
-The site is a static [Zola 0.23](https://www.getzola.org/) project. It builds on GitHub Actions and is published to GitHub Pages; there is no server-side application or database.
+<p align="center">
+  <strong>Technical essays for a world that keeps moving.</strong><br>
+  Systems · Rust · identity · platforms · the craft of building
+</p>
 
-## Local development
+<p align="center">
+  <a href="https://adamcavendish.github.io/modest-destiny-blog/">Read the blog</a> ·
+  <a href="https://adamcavendish.github.io/modest-destiny-blog/posts/">Browse posts</a> ·
+  <a href="https://adamcavendish.github.io/modest-destiny-blog/series/">Explore series</a>
+</p>
 
-Install Zola 0.23, then run from this directory:
+The age rushes onward beneath us, carrying cities, languages, and generations in its current, while we learn to keep our hearts humble and our hands useful upon the waves.
 
-```sh
-zola serve
-```
+— **Adam Basfop Cavendish**
 
-Before committing, run:
+## What Modest Destiny is about
 
-```sh
-zola check --skip-external-links
-zola build
-```
+Modest Destiny is a personal notebook for understanding the forces that shape software and the people who make it. It follows ideas across boundaries: from protocol details to system design, from Rust code to the institutions and incentives around it.
 
-The generated `public/` directory is a build artifact and is ignored by Git.
+The writing aims for clarity without flattening complexity. Each essay starts with a concrete question, makes its assumptions visible, and follows the consequences until the shape of the tradeoff becomes clear. Diagrams, equations, code, and interactive figures appear when they help an idea become easier to see.
 
-## Writing a post
+## Featured series
 
-Create a Markdown file under `content/posts/` with front matter like this:
+### [Proof-Carrying HTTP: Understanding DPoP](https://adamcavendish.github.io/modest-destiny-blog/series/proof-carrying-http-understanding-dpop/)
 
-```toml
-+++
-title = "A Clear Article Title"
-date = 2026-10-04
-description = "One sentence used in cards, feeds, and search."
-[taxonomies]
-tags = ["Rust", "Web"]
-+++
-```
+A six-part exploration of how proof-of-possession changes the meaning of an access token—from the replay problem, through request verification, to the operational boundaries where protocol elegance meets the industrial world.
 
-Use Markdown as the default format. Inline HTML is supported for layout-sensitive pieces such as figures, tables, and accessible fallbacks. Math uses KaTeX-compatible delimiters. Images belong in `static/images/` and should include useful alt text.
+- [The Token That Cannot Tell You Who Holds It](https://adamcavendish.github.io/modest-destiny-blog/posts/dpop-01-token-cannot-tell/)
+- [From Possession to Proof](https://adamcavendish.github.io/modest-destiny-blog/posts/dpop-02-from-possession-to-proof/)
+- [One Request, Three Checks](https://adamcavendish.github.io/modest-destiny-blog/posts/dpop-03-one-request-three-checks/)
+- [DPoP in the Industrial Neighborhood](https://adamcavendish.github.io/modest-destiny-blog/posts/dpop-04-industrial-neighborhood/)
+- [Where the Proof Gets Sharp](https://adamcavendish.github.io/modest-destiny-blog/posts/dpop-05-where-proof-gets-sharp/)
+- [The Shape of the Tradeoff](https://adamcavendish.github.io/modest-destiny-blog/posts/dpop-06-shape-of-tradeoff/)
 
-Drafts live in `content/drafts/` and must set `draft = true`.
+## Subjects I return to
 
-## Series
+<p align="center">
+  <code>Rust</code> · <code>distributed systems</code> · <code>HTTP &amp; identity</code> · <code>developer tooling</code> · <code>machine learning systems</code> · <code>technical craft</code>
+</p>
 
-Add a shared `series` taxonomy and an explicit order when posts form a sequence:
+Some posts are practical and reproducible. Others are deliberately slower: attempts to name an invariant, test a mental model, or understand why a seemingly reasonable design stops working at scale.
 
-```toml
-[taxonomies]
-tags = ["OAuth", "Security"]
-series = ["Proof-Carrying HTTP: Understanding DPoP"]
+## About the author
 
-[extra]
-series_order = 2
-```
+**Adam Basfop Cavendish** is a system engineer and technical generalist working across Rust, APIs, identity, developer tooling, platforms, and machine learning systems. He builds software, studies the systems around it, and writes to make difficult ideas portable.
 
-The site exposes a Series index, shows the Series and part number on cards and article pages, and links each part to its previous and next entry. Keep the order explicit so publication date edits do not reorder the work.
+- [GitHub](https://github.com/adamcavendish)
+- [Personal project index](https://github.com/adamcavendish/adamcavendish)
+- [Modest Destiny](https://adamcavendish.github.io/modest-destiny-blog/)
 
-## Interactive figures
+## The site
 
-Charts use the article-local ECharts component and load ECharts 6.1.0 only when a chart is present and near the viewport. Anime.js follows the same principle: put the module in the article's `extra.article_scripts`, keep the no-JavaScript markup meaningful, and respect `prefers-reduced-motion`. See `skills/blog-interactive-figures/SKILL.md`.
+Modest Destiny is published as a fast, static site on GitHub Pages. The source is Markdown-first, with room for HTML figures, mathematics, diagrams, and carefully chosen interactive pieces when the subject calls for them.
 
-## Theme and assets
-
-The theme is plain CSS with light and dark modes; it does not require Sass. The wine-red identity is defined in `static/css/main.css`. `favicon.svg` is the primary icon and `favicon.png` provides browser fallback compatibility.
-
-## Comments and search
-
-Article pages reserve a comments section for Giscus once GitHub Discussions are configured. Search is generated by Zola's Elasticlunr index and enhanced in the browser; it remains a static-site feature.
-
-## Deployment
-
-Pushes to `main` run `.github/workflows/deploy.yml`. The workflow installs the pinned Zola release, runs `zola build`, uploads `public/` as a Pages artifact, and deploys it with GitHub Pages.
-
-The archived site is kept separately in `../modest-destiny-blog-legacy/` as read-only migration material.
+[Enter Modest Destiny →](https://adamcavendish.github.io/modest-destiny-blog/)
