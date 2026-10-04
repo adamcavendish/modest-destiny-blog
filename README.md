@@ -1,87 +1,73 @@
-# Zola prototype
+# Modest Destiny
 
-This is an isolated Markdown-first prototype. The existing Nikola/Typora site remains unchanged.
+The source for [Modest Destiny](https://adamcavendish.github.io/modest-destiny-blog/), Adam Basfop Cavendish's Markdown-first technical blog.
 
-## Local preview
+The site is a static [Zola 0.23](https://www.getzola.org/) project. It builds on GitHub Actions and is published to GitHub Pages; there is no server-side application or database.
 
-Install Zola, then run:
+## Local development
+
+Install Zola 0.23, then run from this directory:
 
 ```sh
 zola serve
 ```
 
-from this directory. `zola build` writes the static site to `public/`.
+Before committing, run:
 
-The prototype demonstrates Markdown, KaTeX-compatible math syntax, a Tera ECharts component, local article assets, and a Giscus placeholder. Replace the placeholder in `templates/page.html` with the Giscus embed after enabling GitHub Discussions.
-
-## Optional interactive articles
-
-Zola 0.23 removed the old shortcode API, so the site uses a Tera component instead. Add a chart in an article with:
-
-```md
-{{ <echarts id="latency" title="Latency by percentile" data="[12, 18, 31, 55]" /> }}
+```sh
+zola check --skip-external-links
+zola build
 ```
 
-`js/charts.js` loads ECharts only when the rendered page contains a chart, and delays the import until a chart is close to the viewport. Pages without charts do not request the ECharts bundle.
+The generated `public/` directory is a build artifact and is ignored by Git.
 
-Anime.js is deliberately article-local because its animations usually need procedural DOM or SVG code. Declare the module in that article's front matter:
+## Writing a post
+
+Create a Markdown file under `content/posts/` with front matter like this:
 
 ```toml
-[extra]
-article_scripts = ["js/articles/proof-animation.js"]
++++
+title = "A Clear Article Title"
+date = 2026-10-04
+description = "One sentence used in cards, feeds, and search."
+[taxonomies]
+tags = ["Rust", "Web"]
++++
 ```
 
-Keep the animated markup in the article so it remains meaningful without JavaScript:
+Use Markdown as the default format. Inline HTML is supported for layout-sensitive pieces such as figures, tables, and accessible fallbacks. Math uses KaTeX-compatible delimiters. Images belong in `static/images/` and should include useful alt text.
 
-```md
-<figure class="animation-figure" data-anime-demo="proof-animation">
-  <div class="animation-figure__stage">
-    <div class="my-animation-target">The proof follows the request.</div>
-  </div>
-  <figcaption>The proof follows the request.</figcaption>
-</figure>
-```
-
-Import `loadAnime` from `js/anime-runtime.js` inside the article module. This keeps Anime.js out of every other page and avoids fetching it when reduced motion is enabled:
-
-```js
-import { loadAnime, prefersReducedMotion } from '../anime-runtime.js';
-
-const target = document.querySelector('[data-anime-demo="proof-animation"] .my-animation-target');
-if (target && !prefersReducedMotion()) {
-  const { animate } = await loadAnime();
-  animate(target, { translateX: 120, duration: 700, ease: 'out(3)' });
-}
-```
-
-Keep the static markup meaningful without JavaScript, prefer transforms and opacity, and provide a reduced-motion path. Do not add the article module to `base.html`.
+Drafts live in `content/drafts/` and must set `draft = true`.
 
 ## Series
 
-Use the `series` taxonomy when several posts should be read as one ordered work. Keep the order explicit in front matter so it remains stable if publication dates change:
+Add a shared `series` taxonomy and an explicit order when posts form a sequence:
 
 ```toml
 [taxonomies]
-tags = ["Zola", "Web"]
-series = ["Building a Blog with Zola"]
+tags = ["OAuth", "Security"]
+series = ["Proof-Carrying HTTP: Understanding DPoP"]
 
 [extra]
-series_order = 3
+series_order = 2
 ```
 
-Once at least one post has a `series`, the navigation exposes `/series/`. The Series index groups works, each Series page lists its parts in `series_order`, and an article shows its position plus Previous/Next links.
+The site exposes a Series index, shows the Series and part number on cards and article pages, and links each part to its previous and next entry. Keep the order explicit so publication date edits do not reorder the work.
 
-## DPoP series design
+## Interactive figures
 
-The first editorial series is **Proof-Carrying HTTP: Understanding DPoP**. It is a six-part line of thought:
+Charts use the article-local ECharts component and load ECharts 6.1.0 only when a chart is present and near the viewport. Anime.js follows the same principle: put the module in the article's `extra.article_scripts`, keep the no-JavaScript markup meaningful, and respect `prefers-reduced-motion`. See `skills/blog-interactive-figures/SKILL.md`.
 
-1. **The Token That Cannot Tell You Who Holds It** — establish the replay problem through one ordinary request.
-2. **From Possession to Proof** — introduce the key, token binding, and per-request proof.
-3. **One Request, Three Checks** — make verification visible as a sequence of gates.
-4. **DPoP in the Industrial Neighborhood** — compare bearer tokens, mTLS, platform keys, and custom signing.
-5. **Where the Proof Gets Sharp** — follow the operational pain at keys, URLs, clocks, proxies, and replay state.
-6. **The Shape of the Tradeoff** — explain why DPoP chooses application-layer deployability and where that choice stops helping.
+## Theme and assets
 
-The voice is neutral and essayistic: start with a concrete incident, make one invariant visible, then earn the protocol detail. The visual language follows 3Blue1Brown's explanatory instinct—progressive construction, stable objects, and one question per figure—while keeping references at the end of each article. SVGs remain the static explanation; Anime.js is an optional enhancement for short reveals and is disabled for reduced-motion users or when JavaScript is unavailable.
+The theme is plain CSS with light and dark modes; it does not require Sass. The wine-red identity is defined in `static/css/main.css`. `favicon.svg` is the primary icon and `favicon.png` provides browser fallback compatibility.
 
-Rust appears throughout as compact pseudocode that maps the conceptual objects to ownership and request construction. It is explanatory rather than a reference implementation, and the series deliberately avoids a long code appendix.
+## Comments and search
+
+Article pages reserve a comments section for Giscus once GitHub Discussions are configured. Search is generated by Zola's Elasticlunr index and enhanced in the browser; it remains a static-site feature.
+
+## Deployment
+
+Pushes to `main` run `.github/workflows/deploy.yml`. The workflow installs the pinned Zola release, runs `zola build`, uploads `public/` as a Pages artifact, and deploys it with GitHub Pages.
+
+The archived site is kept separately in `../modest-destiny-blog-legacy/` as read-only migration material.
